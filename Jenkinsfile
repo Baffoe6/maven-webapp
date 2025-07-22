@@ -4,7 +4,7 @@ pipeline {
     environment {
         MAVEN_HOME = '/usr/share/maven'
         JAVA_HOME = '/usr/lib/jvm/java-11-openjdk'
-        DEPLOY_SERVER = 'http://44.201.236.46:8080/manager/text'  // 🔄 Replace with actual EC2 IP
+        DEPLOY_SERVER = 'http://3.84.38.89:8080/manager/text'  // 🔄 Replace with actual EC2 IP
     }
 
     stages {
