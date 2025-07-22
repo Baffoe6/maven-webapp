@@ -4,15 +4,13 @@ pipeline {
     environment {
         MAVEN_HOME = '/usr/share/maven'
         JAVA_HOME = '/usr/lib/jvm/java-11-openjdk'
-        DEPLOY_SERVER = 'http://localhost:8080/manager/text'
-        DEPLOY_USER = 'admin'
-        DEPLOY_PASS = 'admin_password'
+        DEPLOY_SERVER = 'http://44.201.236.46:8080/manager/text'  // 🔄 Replace with actual EC2 IP
     }
 
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/Baffoe6/maven-webapp.git'
+                git branch: 'baffoe6', url: 'https://github.com/Baffoe6/maven-webapp.git'
             }
         }
 
@@ -52,9 +50,9 @@ pipeline {
                     def warName = sh(script: "ls target/*.war", returnStdout: true).trim()
                     withCredentials([usernamePassword(credentialsId: 'tomcat-creds', usernameVariable: 'TOMCAT_USER', passwordVariable: 'TOMCAT_PASS')]) {
                         sh """
-                            curl --upload-file ${warName} \
-                            --user ${TOMCAT_USER}:${TOMCAT_PASS} \
-                            ${DEPLOY_SERVER}/deploy?path=/maven-webapp&update=true
+                            curl --upload-file ${warName} \\
+                                 --user ${TOMCAT_USER}:${TOMCAT_PASS} \\
+                                 ${DEPLOY_SERVER}/deploy?path=/maven-webapp&update=true
                         """
                     }
                 }
